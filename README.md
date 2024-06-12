@@ -10,9 +10,18 @@ This tool generates the following files:
   - `base_codes`: Base codes for database migration scripts and containers
 
 ## Requirements
+
 - Go 1.18 or later
 - Docker, Docker Compose (Optional)
 - Task (Optional)
+
+## Installation
+
+```bash
+git clone https://github.com/ninomae42/playground_generator.git
+cd playground_generator
+go install
+```
 
 ## Usage
 
