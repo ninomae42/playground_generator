@@ -1,3 +1,3 @@
-module github.com/ninomae42/playground_generator
+module github.com/ninomae42/pggen
 
 go 1.18
