@@ -7,13 +7,17 @@ Playground generator is a tool to generate a database environment config files f
 This tool generates the following files:
   - `compose.yaml`: Docker compose file to create database/migration containers
   - `taskfile.yaml`: task-runner file to run bunch of commands
-  - `base_codes`: Base codes for database migration scripts and containers
+
+This tool also copies the following directories:
+  - `base_codes/`
+    - The files/directories in this directory will be copied to the output directory.
+    - By default, base configuration codes for database migration scripts and containers are stored. (see `base_code` directory)
 
 ## Requirements
 
 - Go 1.18 or later
 - Docker, Docker Compose (Optional)
-- Task (Optional)
+- [Task](https://taskfile.dev/) (Optional)
 
 ## Installation
 
