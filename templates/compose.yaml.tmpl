@@ -1,0 +1,39 @@
+services:
+  mariadb:
+    container_name: {{.ProjectName}}-playground-mariadb
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_HOST: '%'
+      MARIADB_DATABASE: playground
+      MARIADB_ROOT_PASSWORD: password
+    ports:
+      - "23306:3306"
+    volumes:
+      - ./docker/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  migration:
+    container_name: {{.ProjectName}}-playground-migration
+    build:
+      context: migration
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_USER: root
+      MYSQL_HOST: mariadb
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-playground}
+      MYSQL_PORT: "3306"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - ./migration:/migrations
+
+networks:
+  default:
+    name: {{.ProjectName}}-playground
+    external: true

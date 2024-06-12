@@ -1,0 +1,33 @@
+version: '3'
+
+vars:
+    NETWORK_NAME: {{.ProjectName}}-playground
+
+tasks:
+  default:
+    desc: "show commands"
+    cmds:
+    - task -l
+
+  migrate:
+    desc: "run database migrations"
+    deps: [setup]
+    cmds:
+      - docker compose run --rm migration
+
+  setup:
+    desc: "create docker network and launch containers"
+    cmds:
+      - docker network create {{ "{{.NETWORK_NAME}}" }} || true
+      - docker compose up -d
+
+  logs:
+    desc: "show logs of docker containers"
+    cmds:
+      - docker compose logs
+
+  clean:
+    desc: "cleanup all docker containers and network"
+    cmds:
+      - docker compose down -v --remove-orphans
+      - docker network rm {{ "{{.NETWORK_NAME}}" }} || true
